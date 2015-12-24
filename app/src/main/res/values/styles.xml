@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- styles -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primaryDark</item>
+    </style>
+
+    <style name="ToolBarWithNavigationBack">
+        <item name="navigationIcon">@drawable/abc_ic_ab_back_mtrl_am_alpha</item>
+    </style>
+
+
+</resources>
