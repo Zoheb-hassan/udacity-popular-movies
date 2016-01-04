@@ -16,8 +16,14 @@ import android.widget.TextView;
 import com.google.gson.annotations.SerializedName;
 import com.squareup.picasso.Picasso;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import movies.nano.udacity.com.udacitypopularmovies.model.MovieData;
 import movies.nano.udacity.com.udacitypopularmovies.model.MovieRequestResponse;
@@ -69,6 +75,7 @@ public class DetailActivity extends AppCompatActivity implements RequestConstant
     private boolean isVideo;
     private double vote_average;
 
+    static String TAG = "DetailAcivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,31 +104,51 @@ public class DetailActivity extends AppCompatActivity implements RequestConstant
             }
         });
 
-
-        posterPath = movieDetails.getPosterPath();
-        isAdult = movieDetails.isAdult();
+        title = movieDetails.getTitle();
+        vote_average = movieDetails.getVote_average();
         overview = movieDetails.getOverview();
+        posterPath = movieDetails.getPosterPath();
+        backdrop_path = movieDetails.getBackdrop_path();
         releaseDate = movieDetails.getReleaseDate();
+
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = new Date();
+        try {
+            date = simpleDateFormat.parse(releaseDate);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        int releaseYear = calendar.get(Calendar.YEAR);
+
+        title = title+" - ("+String.valueOf(releaseYear)+")";
+
+        /*
+        popularity = movieDetails.getPopularity();
+        vote_count = movieDetails.getVote_count();
+        isVideo = movieDetails.isVideo();
+
+
+        isAdult = movieDetails.isAdult();
+
+
         genreIds = movieDetails.getGenreIds();
         movieID = movieDetails.getMovieID();
         original_title = movieDetails.getOriginal_title();
         original_language = movieDetails.getOriginal_language();
-        title = movieDetails.getTitle();
-        backdrop_path = movieDetails.getBackdrop_path();
-        popularity = movieDetails.getPopularity();
-        vote_count = movieDetails.getVote_count();
-        isVideo = movieDetails.isVideo();
-        vote_average = movieDetails.getVote_average();
+        */
 
 
         movieTitle = (TextView)findViewById(R.id.detail_activity_movie_title);
         movieTitle.setText(title);
-        Log.e("DetailActivity Title", "" + movieDetails.getTitle());
 
         movieRating = (TextView) findViewById(R.id.rating);
         movieRating.setText(String.valueOf(vote_average));
 
-        Log.e("Detail Vote Average", String.valueOf(movieDetails.getVote_average()));
 
         plotSynopsis = (TextView) findViewById(R.id.detail_activity_plot_synopsis);
         plotSynopsis.setText(overview);
@@ -131,7 +158,6 @@ public class DetailActivity extends AppCompatActivity implements RequestConstant
         posterImage = (ImageView)findViewById(R.id.detail_activity_poster_image);
         String posterUrl = posterUrl(posterPath);
 
-        Log.e("Detail posterUrl", posterUrl);
 
         Picasso.with(this).load(posterUrl).into(posterImage);
         posterImage.setAdjustViewBounds(true);
@@ -139,9 +165,8 @@ public class DetailActivity extends AppCompatActivity implements RequestConstant
         backDropImage = (ImageView) findViewById(R.id.detail_activity_backdrop_image);
         String backdropUrl = posterUrl(backdrop_path);
 
-        Log.e("Detail posterUrl", backdropUrl);
 
-        Picasso.with(this).load(backdropUrl).into(posterImage);
+        Picasso.with(this).load(backdropUrl).into(backDropImage);
         backDropImage.setAdjustViewBounds(true);
 
 

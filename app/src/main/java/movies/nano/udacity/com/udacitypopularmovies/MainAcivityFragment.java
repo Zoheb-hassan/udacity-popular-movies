@@ -51,6 +51,9 @@ public class MainAcivityFragment extends Fragment implements RequestConstants {
     String parcelableMovieData = "nano.movie.parcelableMovieData";
     MovieRequestResponse mResponse;
 
+    MovieData movieDetails;
+
+    static String TAG = "MainAcivityFragment";
 
     public MainAcivityFragment() {
         // Required empty public constructor
@@ -96,7 +99,10 @@ public class MainAcivityFragment extends Fragment implements RequestConstants {
                 intent.putExtra("key_position", position);
 
                 movieData = mResponse.getMovieData();
-                intent.putExtra(parcelableMovieData,movieData[position]);
+
+                movieDetails = movieData[position];
+
+                intent.putExtra(parcelableMovieData, movieData[position]);
 
                 startActivity(intent);
             }

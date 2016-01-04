@@ -69,6 +69,7 @@ public class MovieData implements Parcelable {
         dest.writeString(posterPath);
         dest.writeInt(isAdult ? 1 : 0);
         dest.writeString(overview);
+        dest.writeString(releaseDate);
         dest.writeIntArray(genreIds);
         dest.writeInt(movieID);
         dest.writeString(original_title);
