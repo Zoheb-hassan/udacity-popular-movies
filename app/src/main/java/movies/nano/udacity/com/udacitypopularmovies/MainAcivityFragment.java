@@ -48,6 +48,7 @@ public class MainAcivityFragment extends Fragment implements RequestConstants {
     ProgressDialog progressDialog;
     MovieData[] movieData;
     String parcelableMovieResponse = "nano.movie.parcelableData";
+    String parcelableMovieData = "nano.movie.parcelableMovieData";
     MovieRequestResponse mResponse;
 
 
@@ -93,14 +94,10 @@ public class MainAcivityFragment extends Fragment implements RequestConstants {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getActivity(), DetailActivity.class);
                 intent.putExtra("key_position", position);
-                intent.putExtra(parcelableMovieResponse,mResponse);
-                /*
-                Bundle bundle = new Bundle();
 
-                bundle.putParcelable(parcelableMovieResponse, mResponse);
+                movieData = mResponse.getMovieData();
+                intent.putExtra(parcelableMovieData,movieData[position]);
 
-                intent.putExtras(bundle);
-                */
                 startActivity(intent);
             }
         });

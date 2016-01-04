@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.gson.annotations.SerializedName;
 import com.squareup.picasso.Picasso;
 
 import java.util.Arrays;
@@ -35,7 +36,7 @@ public class DetailActivity extends AppCompatActivity implements RequestConstant
     TextView movieTitle;
     TextView movieRating;
     TextView plotSynopsis;
-    TextView releaseDate;
+    TextView releaseDateTv;
 
     CollapsingToolbarLayout collapsingToolBar;
 
@@ -45,14 +46,28 @@ public class DetailActivity extends AppCompatActivity implements RequestConstant
 
     private int mMaxScrollSize;
 
-    List<MovieData> movieList;
-    MovieData[] movieData;
     MovieData movieDetails;
 
-    String parcelableMovieResponse = "nano.movie.parcelableData";
-    MovieRequestResponse mResponse;
+    String parcelableMovieData = "nano.movie.parcelableMovieData";
+
     int positionSelected;
     String POSITION_SELECTED = "position_selected";
+
+
+    private String posterPath;
+    private boolean isAdult;
+    private String overview;
+    private String releaseDate;
+    private int [] genreIds;
+    private int movieID;
+    private String original_title;
+    private String original_language;
+    private String title;
+    private String backdrop_path;
+    private double popularity;
+    private int vote_count;
+    private boolean isVideo;
+    private double vote_average;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,24 +79,15 @@ public class DetailActivity extends AppCompatActivity implements RequestConstant
 
             Bundle extras = getIntent().getExtras();
 
-            mResponse = extras.getParcelable(parcelableMovieResponse);
+            movieDetails = extras.getParcelable(parcelableMovieData);
             positionSelected = getIntent().getIntExtra("key_position", 0);
 
         }else{
 
-            mResponse = savedInstanceState.getParcelable(parcelableMovieResponse);
+            movieDetails = savedInstanceState.getParcelable(parcelableMovieData);
             positionSelected = savedInstanceState.getInt("key_position", 0);
 
         }
-
-
-
-        movieData = mResponse.getMovieData();
-
-
-        movieList =  Arrays.asList(movieData);
-
-        movieDetails = movieList.get(positionSelected);
 
         navigationToolbar = (Toolbar) findViewById(R.id.detail_activity_toolbar);
         navigationToolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -91,25 +97,39 @@ public class DetailActivity extends AppCompatActivity implements RequestConstant
             }
         });
 
-        Log.e("DetailActivity  Length", "" + movieData.length);
+
+        posterPath = movieDetails.getPosterPath();
+        isAdult = movieDetails.isAdult();
+        overview = movieDetails.getOverview();
+        releaseDate = movieDetails.getReleaseDate();
+        genreIds = movieDetails.getGenreIds();
+        movieID = movieDetails.getMovieID();
+        original_title = movieDetails.getOriginal_title();
+        original_language = movieDetails.getOriginal_language();
+        title = movieDetails.getTitle();
+        backdrop_path = movieDetails.getBackdrop_path();
+        popularity = movieDetails.getPopularity();
+        vote_count = movieDetails.getVote_count();
+        isVideo = movieDetails.isVideo();
+        vote_average = movieDetails.getVote_average();
 
 
         movieTitle = (TextView)findViewById(R.id.detail_activity_movie_title);
-        movieTitle.setText(movieDetails.getTitle());
+        movieTitle.setText(title);
         Log.e("DetailActivity Title", "" + movieDetails.getTitle());
 
         movieRating = (TextView) findViewById(R.id.rating);
-        movieRating.setText(String.valueOf(movieDetails.getVote_average()));
+        movieRating.setText(String.valueOf(vote_average));
 
         Log.e("Detail Vote Average", String.valueOf(movieDetails.getVote_average()));
 
         plotSynopsis = (TextView) findViewById(R.id.detail_activity_plot_synopsis);
-        plotSynopsis.setText(movieDetails.getOverview());
+        plotSynopsis.setText(overview);
 
         collapsingToolBar = (CollapsingToolbarLayout)findViewById(R.id.detail_activity_collapsing_toolbar);
 
         posterImage = (ImageView)findViewById(R.id.detail_activity_poster_image);
-        String posterUrl = posterUrl(movieDetails.getPosterPath());
+        String posterUrl = posterUrl(posterPath);
 
         Log.e("Detail posterUrl", posterUrl);
 
@@ -117,12 +137,13 @@ public class DetailActivity extends AppCompatActivity implements RequestConstant
         posterImage.setAdjustViewBounds(true);
 
         backDropImage = (ImageView) findViewById(R.id.detail_activity_backdrop_image);
-        String backdropUrl = posterUrl(movieDetails.getPosterPath());
+        String backdropUrl = posterUrl(backdrop_path);
 
         Log.e("Detail posterUrl", backdropUrl);
 
         Picasso.with(this).load(backdropUrl).into(posterImage);
         backDropImage.setAdjustViewBounds(true);
+
 
         appBarLayout = (AppBarLayout)findViewById(R.id.detail_activity_appbarlayout);
 
@@ -136,7 +157,7 @@ public class DetailActivity extends AppCompatActivity implements RequestConstant
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putParcelable(parcelableMovieResponse, mResponse);
+        outState.putParcelable(parcelableMovieData, movieDetails);
         outState.putInt("key_position",positionSelected);
 
 
