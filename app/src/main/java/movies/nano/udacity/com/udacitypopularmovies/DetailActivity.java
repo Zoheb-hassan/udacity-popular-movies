@@ -2,31 +2,23 @@ package movies.nano.udacity.com.udacitypopularmovies;
 
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.gson.annotations.SerializedName;
 import com.squareup.picasso.Picasso;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
-import java.util.Locale;
 
 import movies.nano.udacity.com.udacitypopularmovies.model.MovieData;
-import movies.nano.udacity.com.udacitypopularmovies.model.MovieRequestResponse;
 import movies.nano.udacity.com.udacitypopularmovies.utility.RequestConstants;
 
 /**
@@ -147,7 +139,10 @@ public class DetailActivity extends AppCompatActivity implements RequestConstant
         movieTitle.setText(title);
 
         movieRating = (TextView) findViewById(R.id.rating);
-        movieRating.setText(String.valueOf(vote_average));
+
+        String rating = String.format("%.1f", vote_average);
+        rating = rating.concat("/10");
+        movieRating.setText(rating);
 
 
         plotSynopsis = (TextView) findViewById(R.id.detail_activity_plot_synopsis);
