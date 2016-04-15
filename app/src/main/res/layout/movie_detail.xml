@@ -125,6 +125,21 @@
 
             </RelativeLayout>
 
+            <android.support.design.widget.TabLayout
+                android:id="@+id/movie.detail.tab"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/activity_horizontal_margin"
+                android:layout_below="@+id/rating_container"
+                app:tabMode="scrollable"/>
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/movie.detail.pager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/white"
+                />
+
             <TextView
                 android:id="@+id/detail.activity.plot_synopsis"
                 android:layout_width="match_parent"
