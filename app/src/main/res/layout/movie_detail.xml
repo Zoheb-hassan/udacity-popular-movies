@@ -42,28 +42,11 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <ImageView
-        android:id="@+id/detail.activity.poster_image"
-        android:layout_width="120dp"
-        android:layout_height="160dp"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        tools:src="@drawable/prof"
-        app:layout_anchor="@id/detail.activity.appbarlayout"
-        app:layout_anchorGravity="start|bottom|end" />
-
-    <android.support.v4.widget.NestedScrollView
-        android:id="@+id/detail.activity.nested_scroll_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:ellipsize="end"
-        android:maxLines="2"
-        android:scrollbars="none"
-        android:textAppearance="@style/TextAppearance.AppCompat.Title"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <android.widget.Space
                 android:id="@+id/detail.activity.arbitary_holder"
@@ -131,28 +114,27 @@
                 android:layout_height="wrap_content"
                 android:padding="@dimen/activity_horizontal_margin"
                 android:layout_below="@+id/rating_container"
-                app:tabMode="scrollable"/>
+                app:tabMode="fixed"
+                app:tabGravity="fill"/>
 
             <android.support.v4.view.ViewPager
                 android:id="@+id/movie.detail.pager"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@android:color/white"
+                android:layout_below="@+id/movie.detail.tab"
                 />
-
-            <TextView
-                android:id="@+id/detail.activity.plot_synopsis"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:lineSpacingExtra="8dp"
-                android:padding="@dimen/activity_horizontal_margin"
-                android:layout_below="@+id/rating_container"
-                android:textSize="20sp" />
 
         </RelativeLayout>
 
-    </android.support.v4.widget.NestedScrollView>
-
+    <ImageView
+        android:id="@+id/detail.activity.poster_image"
+        android:layout_width="120dp"
+        android:layout_height="160dp"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        tools:src="@drawable/prof"
+        app:layout_anchor="@id/detail.activity.appbarlayout"
+        app:layout_anchorGravity="start|bottom|end" />
 
 </android.support.design.widget.CoordinatorLayout>
 

@@ -1,11 +1,10 @@
-package movies.nano.udacity.com.udacitypopularmovies;
+package movies.nano.udacity.com.udacitypopularmovies.fragments;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,6 +21,8 @@ import com.android.volley.VolleyError;
 import java.util.Arrays;
 import java.util.List;
 
+import movies.nano.udacity.com.udacitypopularmovies.DetailActivity;
+import movies.nano.udacity.com.udacitypopularmovies.R;
 import movies.nano.udacity.com.udacitypopularmovies.adapter.MovieListAdapter;
 import movies.nano.udacity.com.udacitypopularmovies.model.MovieData;
 import movies.nano.udacity.com.udacitypopularmovies.model.MovieRequestResponse;

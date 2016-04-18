@@ -4,6 +4,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -15,9 +18,16 @@ import com.squareup.picasso.Picasso;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
+import movies.nano.udacity.com.udacitypopularmovies.adapter.MovieListAdapter;
+import movies.nano.udacity.com.udacitypopularmovies.adapter.MoviePagerAdapter;
+import movies.nano.udacity.com.udacitypopularmovies.fragments.MovieReviewFragment;
+import movies.nano.udacity.com.udacitypopularmovies.fragments.MovieSynopsisFragment;
+import movies.nano.udacity.com.udacitypopularmovies.fragments.MovieTrailerFragment;
 import movies.nano.udacity.com.udacitypopularmovies.model.MovieData;
 import movies.nano.udacity.com.udacitypopularmovies.utility.RequestConstants;
 
@@ -68,11 +78,28 @@ public class DetailActivity extends AppCompatActivity implements RequestConstant
     private double vote_average;
 
     static String TAG = "DetailAcivity";
+    ViewPager movieDetailPager;
+    TabLayout tabs;
+    List<Fragment> fragmentList =  new ArrayList<Fragment>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.movie_detail);
 
+        MovieSynopsisFragment movieSynopsisFragment = new MovieSynopsisFragment();
+        MovieReviewFragment movieReviewFragment = new MovieReviewFragment();
+        MovieTrailerFragment movieTrailerFragment = new MovieTrailerFragment();
+
+        fragmentList.add(movieSynopsisFragment);
+        fragmentList.add(movieReviewFragment);
+        fragmentList.add(movieTrailerFragment);
+
+        movieDetailPager = (ViewPager)findViewById(R.id.movie_detail_pager);
+        tabs = (TabLayout)findViewById(R.id.movie_detail_tab);
+
+        MoviePagerAdapter moviePagerAdapter = new MoviePagerAdapter(getSupportFragmentManager(), fragmentList);
+        movieDetailPager.setAdapter(moviePagerAdapter);
+        tabs.setupWithViewPager(movieDetailPager);
 
         if(savedInstanceState == null){
 
@@ -145,8 +172,8 @@ public class DetailActivity extends AppCompatActivity implements RequestConstant
         movieRating.setText(rating);
 
 
-        plotSynopsis = (TextView) findViewById(R.id.detail_activity_plot_synopsis);
-        plotSynopsis.setText(overview);
+//        plotSynopsis = (TextView) findViewById(R.id.detail_activity_plot_synopsis);
+//        plotSynopsis.setText(overview);
 
         collapsingToolBar = (CollapsingToolbarLayout)findViewById(R.id.detail_activity_collapsing_toolbar);
 
