@@ -17,5 +17,8 @@ public interface RequestConstants {
     final String posterBasePath = "http://image.tmdb.org/t/p/";
     final String imageResolution = "w342";
 
+    final String trailers_path = "videos";
+    final String reviews_path = "reviews";
+    final String movieDetailsPath = "http://api.themoviedb.org/3/movie";
 
 }

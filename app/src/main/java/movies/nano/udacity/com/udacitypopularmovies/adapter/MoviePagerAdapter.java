@@ -21,7 +21,20 @@ public class MoviePagerAdapter extends FragmentPagerAdapter{
 
     @Override
     public Fragment getItem(int position) {
-        return fragmentList.get(position);
+
+        switch(position){
+
+            case 0:
+                return fragmentList.get(0);
+            case 1:
+                return fragmentList.get(1);
+            case 2:
+                return fragmentList.get(2);
+            default:
+                return null;
+        }
+
+
     }
 
     @Override

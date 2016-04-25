@@ -42,11 +42,28 @@
 
     </android.support.design.widget.AppBarLayout>
 
+    <ImageView
+        android:id="@+id/detail.activity.poster_image"
+        android:layout_width="120dp"
+        android:layout_height="160dp"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        tools:src="@drawable/prof"
+        app:layout_anchor="@id/detail.activity.appbarlayout"
+        app:layout_anchorGravity="start|bottom|end" />
+
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/detail.activity.nested_scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:scrollbars="none"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            android:layout_height="match_parent">
 
             <android.widget.Space
                 android:id="@+id/detail.activity.arbitary_holder"
@@ -108,32 +125,49 @@
 
             </RelativeLayout>
 
-            <android.support.design.widget.TabLayout
-                android:id="@+id/movie.detail.tab"
+            <TextView
+                android:id="@+id/detail.activity.synopsis.header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
+                android:layout_below="@+id/rating_container"
+                android:layout_marginTop="@dimen/activity_horizontal_margin"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:text="@string/plot_header"/>
+            
+            <TextView
+                android:id="@+id/detail.activity.plot_synopsis"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:lineSpacingExtra="2dp"
                 android:padding="@dimen/activity_horizontal_margin"
-                android:layout_below="@+id/rating_container"
-                app:tabMode="fixed"
-                app:tabGravity="fill"/>
+                android:layout_below="@+id/detail.activity.synopsis.header"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"/>
 
-            <android.support.v4.view.ViewPager
-                android:id="@+id/movie.detail.pager"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@+id/movie.detail.tab"
-                />
+            <TextView
+                android:id="@+id/detail.activity.trailer.header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
+                android:layout_below="@+id/detail.activity.plot_synopsis"
+                android:layout_marginTop="@dimen/activity_horizontal_margin"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:text="@string/trailer_header"/>
+
+
 
         </RelativeLayout>
 
-    <ImageView
-        android:id="@+id/detail.activity.poster_image"
-        android:layout_width="120dp"
-        android:layout_height="160dp"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        tools:src="@drawable/prof"
-        app:layout_anchor="@id/detail.activity.appbarlayout"
-        app:layout_anchorGravity="start|bottom|end" />
+    </android.support.v4.widget.NestedScrollView>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/favorite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:fabSize="normal"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:layout_gravity="bottom|end"
+        app:backgroundTint="#FF4500"
+        android:src="@drawable/star_outline"/>
 
 </android.support.design.widget.CoordinatorLayout>
-

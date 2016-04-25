@@ -1,5 +1,6 @@
 package movies.nano.udacity.com.udacitypopularmovies;
 
+import android.app.ProgressDialog;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
@@ -14,11 +15,16 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.Volley;
 import com.squareup.picasso.Picasso;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -29,6 +35,12 @@ import movies.nano.udacity.com.udacitypopularmovies.fragments.MovieReviewFragmen
 import movies.nano.udacity.com.udacitypopularmovies.fragments.MovieSynopsisFragment;
 import movies.nano.udacity.com.udacitypopularmovies.fragments.MovieTrailerFragment;
 import movies.nano.udacity.com.udacitypopularmovies.model.MovieData;
+import movies.nano.udacity.com.udacitypopularmovies.model.MovieRequestResponse;
+import movies.nano.udacity.com.udacitypopularmovies.model.MovieReviewResponse;
+import movies.nano.udacity.com.udacitypopularmovies.model.MovieTrailer;
+import movies.nano.udacity.com.udacitypopularmovies.model.MovieTrailerResponse;
+import movies.nano.udacity.com.udacitypopularmovies.utility.GsonRequest;
+import movies.nano.udacity.com.udacitypopularmovies.utility.MyVolley;
 import movies.nano.udacity.com.udacitypopularmovies.utility.RequestConstants;
 
 /**
@@ -81,25 +93,20 @@ public class DetailActivity extends AppCompatActivity implements RequestConstant
     ViewPager movieDetailPager;
     TabLayout tabs;
     List<Fragment> fragmentList =  new ArrayList<Fragment>();
+
+    private static int REQUEST_TRAILERS = 0;
+    private static int REQUEST_REVIEWS = 1;
+    ProgressDialog progressDialog;
+    MyVolley volley;
+    MovieTrailerResponse movieTrailerResponse;
+    MovieTrailer []movieTrailerArray;
+    List<MovieTrailer> movieTrailerList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.movie_detail);
 
-        MovieSynopsisFragment movieSynopsisFragment = new MovieSynopsisFragment();
-        MovieReviewFragment movieReviewFragment = new MovieReviewFragment();
-        MovieTrailerFragment movieTrailerFragment = new MovieTrailerFragment();
-
-        fragmentList.add(movieSynopsisFragment);
-        fragmentList.add(movieReviewFragment);
-        fragmentList.add(movieTrailerFragment);
-
-        movieDetailPager = (ViewPager)findViewById(R.id.movie_detail_pager);
-        tabs = (TabLayout)findViewById(R.id.movie_detail_tab);
-
-        MoviePagerAdapter moviePagerAdapter = new MoviePagerAdapter(getSupportFragmentManager(), fragmentList);
-        movieDetailPager.setAdapter(moviePagerAdapter);
-        tabs.setupWithViewPager(movieDetailPager);
 
         if(savedInstanceState == null){
 
@@ -156,11 +163,11 @@ public class DetailActivity extends AppCompatActivity implements RequestConstant
 
 
         genreIds = movieDetails.getGenreIds();
-        movieID = movieDetails.getMovieID();
         original_title = movieDetails.getOriginal_title();
         original_language = movieDetails.getOriginal_language();
         */
 
+        movieID = movieDetails.getMovieID();
 
         movieTitle = (TextView)findViewById(R.id.detail_activity_movie_title);
         movieTitle.setText(title);
@@ -172,8 +179,8 @@ public class DetailActivity extends AppCompatActivity implements RequestConstant
         movieRating.setText(rating);
 
 
-//        plotSynopsis = (TextView) findViewById(R.id.detail_activity_plot_synopsis);
-//        plotSynopsis.setText(overview);
+        plotSynopsis = (TextView) findViewById(R.id.detail_activity_plot_synopsis);
+        plotSynopsis.setText(overview);
 
         collapsingToolBar = (CollapsingToolbarLayout)findViewById(R.id.detail_activity_collapsing_toolbar);
 
@@ -213,7 +220,6 @@ public class DetailActivity extends AppCompatActivity implements RequestConstant
     public String posterUrl(String posterPath) {
 
         Uri uriBuilder = Uri.parse(posterBasePath).buildUpon().appendPath(imageResolution).build();
-        //.appendPath(posterPath)
         String posterUrl = uriBuilder.toString();
 
         return posterUrl+posterPath;
@@ -240,6 +246,72 @@ public class DetailActivity extends AppCompatActivity implements RequestConstant
                     .scaleY(1).scaleX(1)
                     .start();
         }
+
+    }
+
+    private void requestTrailers() {
+
+        progressDialog = new ProgressDialog(DetailActivity.this);
+        progressDialog.setMessage("Fetching Movies....");
+        progressDialog.show();
+        volley = MyVolley.getInstance(DetailActivity.this);
+
+        GsonRequest<MovieTrailerResponse> movieTrailerRequest = new GsonRequest(Request.Method.GET, requestTrailerReviews(REQUEST_TRAILERS, movieID), MovieTrailerResponse.class, createMyReqSuccessListener(), createMyReqErrorListener());
+        volley.addToRequestQueue(movieTrailerRequest);
+
+    }
+
+
+    private Response.Listener <MovieTrailerResponse>  createMyReqSuccessListener(){
+
+        return new Response.Listener<MovieTrailerResponse>() {
+            @Override
+            public void onResponse(MovieTrailerResponse response) {
+
+                movieTrailerResponse = response;
+                movieTrailerArray = movieTrailerResponse.getTrailerList();
+
+                movieTrailerList =  Arrays.asList(movieTrailerArray);
+//                movieListAdapter = new MovieListAdapter(getActivity(), movieList);
+//                gridView.setAdapter(movieListAdapter);
+
+                progressDialog.dismiss();
+            }
+        };
+    }
+
+    public void requestReviews(){
+        progressDialog = new ProgressDialog(DetailActivity.this);
+        progressDialog.setMessage("Fetching Movies");
+        progressDialog.show();
+
+        GsonRequest<MovieReviewResponse> movieReviewRequest = new GsonRequest<MovieReviewResponse>(Request.Method.GET, requestTrailerReviews(REQUEST_REVIEWS, movieID), MovieReviewResponse.class, )
+    }
+
+
+    private Response.ErrorListener createMyReqErrorListener(){
+
+        return new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+
+            }
+        };
+    }
+
+    public String requestTrailerReviews(int requestCode, int movieID) {
+
+        Uri uriBuilder = null;
+
+        if(requestCode == 0 )
+            uriBuilder = Uri.parse(movieDetailsPath).buildUpon().appendPath(String.valueOf(movieID)).appendPath(trailers_path).appendQueryParameter(apiKey, key).build();
+
+        else if(requestCode == 1)
+            uriBuilder = Uri.parse(movieDetailsPath).buildUpon().appendPath(String.valueOf(movieID)).appendPath(reviews_path).appendQueryParameter(apiKey,key).build();
+
+
+        return uriBuilder.toString();
 
     }
 }
