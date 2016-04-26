@@ -23,4 +23,5 @@ public interface RequestConstants {
     //"http://img.youtube.com/vi/" + trailers.get(i).url + "/hqdefault.jpg"
     final String youtubeThumbPath = "http://img.youtube.com/vi";
     final String defaultThumb = "hqdefault.jpg";
+    final String youTubeVideoPath = "https://youtu.be/";
 }

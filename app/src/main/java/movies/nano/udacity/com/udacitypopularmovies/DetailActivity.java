@@ -20,7 +20,6 @@ import android.widget.TextView;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.Volley;
 import com.squareup.picasso.Picasso;
 
 import java.text.ParseException;
@@ -31,13 +30,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import movies.nano.udacity.com.udacitypopularmovies.adapter.MovieListAdapter;
-import movies.nano.udacity.com.udacitypopularmovies.adapter.MoviePagerAdapter;
-import movies.nano.udacity.com.udacitypopularmovies.fragments.MovieReviewFragment;
-import movies.nano.udacity.com.udacitypopularmovies.fragments.MovieSynopsisFragment;
-import movies.nano.udacity.com.udacitypopularmovies.fragments.MovieTrailerFragment;
+import movies.nano.udacity.com.udacitypopularmovies.adapter.MovieTrailerAdapter;
 import movies.nano.udacity.com.udacitypopularmovies.model.MovieData;
-import movies.nano.udacity.com.udacitypopularmovies.model.MovieRequestResponse;
 import movies.nano.udacity.com.udacitypopularmovies.model.MovieReview;
 import movies.nano.udacity.com.udacitypopularmovies.model.MovieReviewResponse;
 import movies.nano.udacity.com.udacitypopularmovies.model.MovieTrailer;
@@ -111,7 +105,7 @@ public class DetailActivity extends AppCompatActivity implements RequestConstant
     private boolean updateUIFlag = false;
 
     RecyclerView trailerView;
-
+    MovieTrailerAdapter movieTrailerAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -220,6 +214,10 @@ public class DetailActivity extends AppCompatActivity implements RequestConstant
         trailerLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         trailerView.setLayoutManager(trailerLayoutManager);
 
+        movieTrailerList = new ArrayList<MovieTrailer>();
+        movieTrailerList.clear();
+        movieTrailerAdapter = new MovieTrailerAdapter(DetailActivity.this, movieTrailerList);
+        trailerView.setAdapter(movieTrailerAdapter);
 
         requestTrailers();
         requestReviews();
@@ -288,13 +286,17 @@ public class DetailActivity extends AppCompatActivity implements RequestConstant
 
                 movieTrailerResponse = response;
                 movieTrailerArray = movieTrailerResponse.getTrailerList();
-                movieTrailerList =  Arrays.asList(movieTrailerArray);
+                movieTrailerList.clear();
+                movieTrailerList.addAll(Arrays.asList(movieTrailerArray));
+                movieTrailerAdapter.notifyDataSetChanged();
 
                 if(updateUIFlag){
                     progressDialog.dismiss();
                     //Todo Some Method to update the UI
-                }else
+                }else{
                     updateUIFlag  = true;
+                }
+
 
             }
         };
@@ -320,9 +322,13 @@ public class DetailActivity extends AppCompatActivity implements RequestConstant
                 if(updateUIFlag){
                     progressDialog.dismiss();
                     //Todo Some Method to update the UI
-                }else
+                }else{
 
                     updateUIFlag = true;
+
+                }
+
+
 
             }
         };

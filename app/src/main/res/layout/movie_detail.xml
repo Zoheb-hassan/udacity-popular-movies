@@ -156,7 +156,9 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/detail.activity.trailer.view"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_below="@+id/detail.activity.trailer.header"
+                android:layout_margin="8dp"
+                android:layout_height="100dp"/>
 
         </RelativeLayout>
 

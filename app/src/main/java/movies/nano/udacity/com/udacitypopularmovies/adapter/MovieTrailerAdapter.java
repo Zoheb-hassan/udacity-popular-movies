@@ -1,6 +1,8 @@
 package movies.nano.udacity.com.udacitypopularmovies.adapter;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -24,7 +26,7 @@ public class MovieTrailerAdapter extends RecyclerView.Adapter<MovieTrailerAdapte
     Context mContext;
     List<MovieTrailer> trailersList;
 
-    MovieTrailerAdapter(Context context, List<MovieTrailer> trailersList){
+    public MovieTrailerAdapter(Context context, List<MovieTrailer> trailersList){
 
         mContext = context;
         this.trailersList = trailersList;
@@ -35,7 +37,7 @@ public class MovieTrailerAdapter extends RecyclerView.Adapter<MovieTrailerAdapte
     @Override
     public TrailerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        final View inflatedView = LayoutInflater.from(mContext).inflate(R.layout.movie_item, parent);
+        final View inflatedView = LayoutInflater.from(mContext).inflate(R.layout.movie_item, parent, false);
 
         TrailerViewHolder trailerViewHolder = new TrailerViewHolder(inflatedView);
 
@@ -61,12 +63,22 @@ public class MovieTrailerAdapter extends RecyclerView.Adapter<MovieTrailerAdapte
         return trailersList.size();
     }
 
-    public class TrailerViewHolder extends RecyclerView.ViewHolder {
+    public class TrailerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         protected ImageView trailerPosterImage;
         public TrailerViewHolder(View itemView) {
             super(itemView);
             trailerPosterImage = (ImageView)itemView.findViewById(R.id.poster_image);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+
+            int position = getLayoutPosition();
+            MovieTrailer  movieTrailer = trailersList.get(position);
+            watchTrailer(movieTrailer.getTrailerKey());
+
         }
     }
 
@@ -76,5 +88,18 @@ public class MovieTrailerAdapter extends RecyclerView.Adapter<MovieTrailerAdapte
         String posterUrl = uriBuilder.toString();
 
         return posterUrl;
+    }
+
+    public void watchTrailer(String keyID){
+
+        try{
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:" + keyID));
+            mContext.startActivity(intent);
+        }catch (ActivityNotFoundException ex){
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(youTubeVideoPath+keyID));
+            mContext.startActivity(intent);
+        }
+
+
     }
 }
