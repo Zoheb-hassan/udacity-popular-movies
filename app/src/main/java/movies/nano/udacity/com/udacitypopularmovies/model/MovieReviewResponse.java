@@ -12,12 +12,16 @@ public class MovieReviewResponse implements Parcelable {
 
     @SerializedName("id")
     private int movieId;
+
     @SerializedName("page")
     private int pageNumber;
+
     @SerializedName("results")
     private MovieReview[] movieReviews;
+
     @SerializedName("total_pages")
     private int totalPages;
+
     @SerializedName("total_results")
     private int totalResults;
 

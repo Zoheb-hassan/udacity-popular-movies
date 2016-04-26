@@ -69,6 +69,7 @@ public class MovieTrailerAdapter extends RecyclerView.Adapter<MovieTrailerAdapte
         public TrailerViewHolder(View itemView) {
             super(itemView);
             trailerPosterImage = (ImageView)itemView.findViewById(R.id.poster_image);
+            trailerPosterImage.setPadding(8,8,8,8);
             itemView.setOnClickListener(this);
         }
 

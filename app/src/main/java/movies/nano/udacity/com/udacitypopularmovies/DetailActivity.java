@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -339,6 +340,8 @@ public class DetailActivity extends AppCompatActivity implements RequestConstant
         return new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+
+                Log.e(DetailActivity.class.getSimpleName(), error.toString());
 
 
             }
