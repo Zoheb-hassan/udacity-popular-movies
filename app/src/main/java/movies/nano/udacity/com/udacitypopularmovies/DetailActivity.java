@@ -10,6 +10,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
@@ -36,6 +38,7 @@ import movies.nano.udacity.com.udacitypopularmovies.fragments.MovieSynopsisFragm
 import movies.nano.udacity.com.udacitypopularmovies.fragments.MovieTrailerFragment;
 import movies.nano.udacity.com.udacitypopularmovies.model.MovieData;
 import movies.nano.udacity.com.udacitypopularmovies.model.MovieRequestResponse;
+import movies.nano.udacity.com.udacitypopularmovies.model.MovieReview;
 import movies.nano.udacity.com.udacitypopularmovies.model.MovieReviewResponse;
 import movies.nano.udacity.com.udacitypopularmovies.model.MovieTrailer;
 import movies.nano.udacity.com.udacitypopularmovies.model.MovieTrailerResponse;
@@ -101,6 +104,13 @@ public class DetailActivity extends AppCompatActivity implements RequestConstant
     MovieTrailerResponse movieTrailerResponse;
     MovieTrailer []movieTrailerArray;
     List<MovieTrailer> movieTrailerList;
+
+    MovieReviewResponse movieReviewResponse;
+    MovieReview[] movieReviewArray;
+    List<MovieReview> movieReviewList;
+    private boolean updateUIFlag = false;
+
+    RecyclerView trailerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -205,6 +215,14 @@ public class DetailActivity extends AppCompatActivity implements RequestConstant
 
         appBarLayout.addOnOffsetChangedListener(this);
 
+        trailerView = (RecyclerView)findViewById(R.id.detail_activity_trailer_view);
+        LinearLayoutManager trailerLayoutManager = new LinearLayoutManager(this);
+        trailerLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        trailerView.setLayoutManager(trailerLayoutManager);
+
+
+        requestTrailers();
+        requestReviews();
 
     }
 
@@ -256,13 +274,13 @@ public class DetailActivity extends AppCompatActivity implements RequestConstant
         progressDialog.show();
         volley = MyVolley.getInstance(DetailActivity.this);
 
-        GsonRequest<MovieTrailerResponse> movieTrailerRequest = new GsonRequest(Request.Method.GET, requestTrailerReviews(REQUEST_TRAILERS, movieID), MovieTrailerResponse.class, createMyReqSuccessListener(), createMyReqErrorListener());
+        GsonRequest<MovieTrailerResponse> movieTrailerRequest = new GsonRequest(Request.Method.GET, requestTrailerReviews(REQUEST_TRAILERS, movieID), MovieTrailerResponse.class, createTrailerReqSuccessListener(), createMyReqErrorListener());
         volley.addToRequestQueue(movieTrailerRequest);
 
     }
 
 
-    private Response.Listener <MovieTrailerResponse>  createMyReqSuccessListener(){
+    private Response.Listener <MovieTrailerResponse>  createTrailerReqSuccessListener(){
 
         return new Response.Listener<MovieTrailerResponse>() {
             @Override
@@ -270,24 +288,45 @@ public class DetailActivity extends AppCompatActivity implements RequestConstant
 
                 movieTrailerResponse = response;
                 movieTrailerArray = movieTrailerResponse.getTrailerList();
-
                 movieTrailerList =  Arrays.asList(movieTrailerArray);
-//                movieListAdapter = new MovieListAdapter(getActivity(), movieList);
-//                gridView.setAdapter(movieListAdapter);
 
-                progressDialog.dismiss();
+                if(updateUIFlag){
+                    progressDialog.dismiss();
+                    //Todo Some Method to update the UI
+                }else
+                    updateUIFlag  = true;
+
             }
         };
     }
 
     public void requestReviews(){
-        progressDialog = new ProgressDialog(DetailActivity.this);
-        progressDialog.setMessage("Fetching Movies");
-        progressDialog.show();
 
-        GsonRequest<MovieReviewResponse> movieReviewRequest = new GsonRequest<MovieReviewResponse>(Request.Method.GET, requestTrailerReviews(REQUEST_REVIEWS, movieID), MovieReviewResponse.class, )
+
+        GsonRequest<MovieReviewResponse> movieReviewRequest = new GsonRequest<MovieReviewResponse>(Request.Method.GET, requestTrailerReviews(REQUEST_REVIEWS, movieID), MovieReviewResponse.class, createReviewSuccessListener(), createMyReqErrorListener());
+        volley.addToRequestQueue(movieReviewRequest);
+
     }
 
+    private Response.Listener<MovieReviewResponse> createReviewSuccessListener(){
+        return new Response.Listener<MovieReviewResponse>() {
+            @Override
+            public void onResponse(MovieReviewResponse response) {
+
+                movieReviewResponse = response;
+                movieReviewArray = movieReviewResponse.getMovieReviews();
+                movieReviewList = Arrays.asList(movieReviewArray);
+
+                if(updateUIFlag){
+                    progressDialog.dismiss();
+                    //Todo Some Method to update the UI
+                }else
+
+                    updateUIFlag = true;
+
+            }
+        };
+    }
 
     private Response.ErrorListener createMyReqErrorListener(){
 

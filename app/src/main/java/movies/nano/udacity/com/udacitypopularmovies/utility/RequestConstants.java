@@ -20,5 +20,7 @@ public interface RequestConstants {
     final String trailers_path = "videos";
     final String reviews_path = "reviews";
     final String movieDetailsPath = "http://api.themoviedb.org/3/movie";
-
+    //"http://img.youtube.com/vi/" + trailers.get(i).url + "/hqdefault.jpg"
+    final String youtubeThumbPath = "http://img.youtube.com/vi";
+    final String defaultThumb = "hqdefault.jpg";
 }
