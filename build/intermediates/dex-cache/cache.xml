@@ -2,67 +2,74 @@
 <items version="2" >
 
     <item
-        jar="E:\NanoDegree\StudioProjects\udacity-popular-movies\app\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\23.1.0\jars\classes.jar"
+        jar="D:\MySpace\NanoSpace\udacity-popular-movies\app\build\intermediates\exploded-aar\com.android.support\cardview-v7\23.3.0\jars\classes.jar"
         jumboMode="false"
         revision="23.0.2"
-        sha1="3f151e49c316a5ab2c065969a3b3b55ef9b393fc">
-        <dex dex="E:\NanoDegree\StudioProjects\udacity-popular-movies\app\build\intermediates\pre-dexed\debug\classes-1f455b593938c1c26388c2d9156d2d00d661360e.jar" />
+        sha1="82ce13fd19cdfde0e392f03c27edeba8d4333648">
+        <dex dex="D:\MySpace\NanoSpace\udacity-popular-movies\app\build\intermediates\pre-dexed\debug\classes-d004c0f370daa6808e31379eafcbdee03c2f4449.jar" />
     </item>
     <item
-        jar="C:\Users\Suhel\.gradle\caches\modules-2\files-2.1\com.google.code.gson\gson\2.2.4\a60a5e993c98c864010053cb901b7eab25306568\gson-2.2.4.jar"
-        jumboMode="false"
-        revision="23.0.2"
-        sha1="a60a5e993c98c864010053cb901b7eab25306568">
-        <dex dex="E:\NanoDegree\StudioProjects\udacity-popular-movies\app\build\intermediates\pre-dexed\debug\gson-2.2.4-333428c40e985547566ea94db1dfaa2efb0ee47f.jar" />
-    </item>
-    <item
-        jar="E:\Program Files\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\23.1.0\support-annotations-23.1.0.jar"
-        jumboMode="false"
-        revision="23.0.2"
-        sha1="92e3fc113ec3ee36b64603a38857b95700025633">
-        <dex dex="E:\NanoDegree\StudioProjects\udacity-popular-movies\app\build\intermediates\pre-dexed\debug\support-annotations-23.1.0-025d92627f3370c9b143a7a97fbfd468e761d068.jar" />
-    </item>
-    <item
-        jar="E:\NanoDegree\StudioProjects\udacity-popular-movies\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.1.0\jars\classes.jar"
-        jumboMode="false"
-        revision="23.0.2"
-        sha1="57ae0d750ff83f0c738d21720224ac7ea866a094">
-        <dex dex="E:\NanoDegree\StudioProjects\udacity-popular-movies\app\build\intermediates\pre-dexed\debug\classes-0029aa1a085aeda06a6b99f22dba160678593185.jar" />
-    </item>
-    <item
-        jar="E:\NanoDegree\StudioProjects\udacity-popular-movies\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.1.0\jars\classes.jar"
-        jumboMode="false"
-        revision="23.0.2"
-        sha1="ddde541c289c8b816a8f8fd6c325d80788c522a6">
-        <dex dex="E:\NanoDegree\StudioProjects\udacity-popular-movies\app\build\intermediates\pre-dexed\debug\classes-df7ff7ca8ec2422197190a2696f5ba936d2be1fd.jar" />
-    </item>
-    <item
-        jar="E:\NanoDegree\StudioProjects\udacity-popular-movies\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.1.0\jars\libs\internal_impl-23.1.0.jar"
-        jumboMode="false"
-        revision="23.0.2"
-        sha1="8716243bf04bae8d6c9ca94d27b9a9be7236f0a3">
-        <dex dex="E:\NanoDegree\StudioProjects\udacity-popular-movies\app\build\intermediates\pre-dexed\debug\internal_impl-23.1.0-c35731f64d82fe25f64a9d86894f1ce9c4da7b2b.jar" />
-    </item>
-    <item
-        jar="C:\Users\Suhel\.gradle\caches\modules-2\files-2.1\com.squareup.picasso\picasso\2.5.2\7446d06ec8d4f7ffcc53f1da37c95f200dcb9387\picasso-2.5.2.jar"
-        jumboMode="false"
-        revision="23.0.2"
-        sha1="7446d06ec8d4f7ffcc53f1da37c95f200dcb9387">
-        <dex dex="E:\NanoDegree\StudioProjects\udacity-popular-movies\app\build\intermediates\pre-dexed\debug\picasso-2.5.2-7b1b27d8f160c68b05763831c7f4d2bba16b0092.jar" />
-    </item>
-    <item
-        jar="C:\Users\Suhel\.gradle\caches\modules-2\files-2.1\com.mcxiaoke.volley\library\1.0.19\a8f23f65fc1e522ee4a1a697ee569901a46741fa\library-1.0.19.jar"
+        jar="C:\Users\zohebs\.gradle\caches\modules-2\files-2.1\com.mcxiaoke.volley\library\1.0.19\a8f23f65fc1e522ee4a1a697ee569901a46741fa\library-1.0.19.jar"
         jumboMode="false"
         revision="23.0.2"
         sha1="a8f23f65fc1e522ee4a1a697ee569901a46741fa">
-        <dex dex="E:\NanoDegree\StudioProjects\udacity-popular-movies\app\build\intermediates\pre-dexed\debug\library-1.0.19-4b724f8837aff017c096f2976231034fa3459b0a.jar" />
+        <dex dex="D:\MySpace\NanoSpace\udacity-popular-movies\app\build\intermediates\pre-dexed\debug\library-1.0.19-8e0312b1f8c5e1d5fc547660be242ca68a57dfaf.jar" />
     </item>
     <item
-        jar="E:\NanoDegree\StudioProjects\udacity-popular-movies\app\build\intermediates\exploded-aar\com.android.support\design\23.1.0\jars\classes.jar"
+        jar="D:\MySpace\NanoSpace\udacity-popular-movies\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.1.0\jars\libs\internal_impl-23.1.0.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="8716243bf04bae8d6c9ca94d27b9a9be7236f0a3">
+        <dex dex="D:\MySpace\NanoSpace\udacity-popular-movies\app\build\intermediates\pre-dexed\debug\internal_impl-23.1.0-b7bd5de4455f5d1d1f32633dfbf0209a3c725a22.jar" />
+    </item>
+    <item
+        jar="C:\Users\zohebs\.gradle\caches\modules-2\files-2.1\com.google.code.gson\gson\2.2.4\a60a5e993c98c864010053cb901b7eab25306568\gson-2.2.4.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="a60a5e993c98c864010053cb901b7eab25306568">
+        <dex dex="D:\MySpace\NanoSpace\udacity-popular-movies\app\build\intermediates\pre-dexed\debug\gson-2.2.4-c9f935bc85de433a3cdf60982bac03db1a021afb.jar" />
+    </item>
+    <item
+        jar="D:\MySpace\NanoSpace\udacity-popular-movies\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.1.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="57ae0d750ff83f0c738d21720224ac7ea866a094">
+        <dex dex="D:\MySpace\NanoSpace\udacity-popular-movies\app\build\intermediates\pre-dexed\debug\classes-3245576be084e8c9c1e9b89d25ce0b997610babd.jar" />
+    </item>
+    <item
+        jar="D:\MySpace\NanoSpace\udacity-popular-movies\app\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\23.1.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="3f151e49c316a5ab2c065969a3b3b55ef9b393fc">
+        <dex dex="D:\MySpace\NanoSpace\udacity-popular-movies\app\build\intermediates\pre-dexed\debug\classes-f9b531f5bf01edcaa654f320dbebce9edf6bb440.jar" />
+    </item>
+    <item
+        jar="C:\Users\zohebs\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\23.1.0\support-annotations-23.1.0.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="92e3fc113ec3ee36b64603a38857b95700025633">
+        <dex dex="D:\MySpace\NanoSpace\udacity-popular-movies\app\build\intermediates\pre-dexed\debug\support-annotations-23.1.0-d35fa6166202b9adb37fbb7f4fa05a2f69b0c922.jar" />
+    </item>
+    <item
+        jar="D:\MySpace\NanoSpace\udacity-popular-movies\app\build\intermediates\exploded-aar\com.android.support\design\23.1.0\jars\classes.jar"
         jumboMode="false"
         revision="23.0.2"
         sha1="19026d31f5d3ae868db81319671a642be5fbba08">
-        <dex dex="E:\NanoDegree\StudioProjects\udacity-popular-movies\app\build\intermediates\pre-dexed\debug\classes-c1a0529987d5f74353d79cb25e027b3943c88dc2.jar" />
+        <dex dex="D:\MySpace\NanoSpace\udacity-popular-movies\app\build\intermediates\pre-dexed\debug\classes-cde86b510270434e8ab604b569c25711fe979534.jar" />
+    </item>
+    <item
+        jar="C:\Users\zohebs\.gradle\caches\modules-2\files-2.1\com.squareup.picasso\picasso\2.5.2\7446d06ec8d4f7ffcc53f1da37c95f200dcb9387\picasso-2.5.2.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="7446d06ec8d4f7ffcc53f1da37c95f200dcb9387">
+        <dex dex="D:\MySpace\NanoSpace\udacity-popular-movies\app\build\intermediates\pre-dexed\debug\picasso-2.5.2-c31f6b46fd79809700921853047091fe8f19e193.jar" />
+    </item>
+    <item
+        jar="D:\MySpace\NanoSpace\udacity-popular-movies\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.1.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="ddde541c289c8b816a8f8fd6c325d80788c522a6">
+        <dex dex="D:\MySpace\NanoSpace\udacity-popular-movies\app\build\intermediates\pre-dexed\debug\classes-2de7213231f771329a0b07b8de433d25ac4d30a6.jar" />
     </item>
 
 </items>

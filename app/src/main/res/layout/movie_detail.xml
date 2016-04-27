@@ -133,7 +133,8 @@
                 android:layout_below="@+id/rating_container"
                 android:layout_marginTop="@dimen/activity_horizontal_margin"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:text="@string/plot_header"/>
+                android:text="@string/plot_header"
+                android:textColor="@android:color/holo_red_light"/>
             
             <TextView
                 android:id="@+id/detail.activity.plot_synopsis"
@@ -151,7 +152,8 @@
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
                 android:layout_below="@+id/detail.activity.plot_synopsis"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:text="@string/trailer_header"/>
+                android:text="@string/trailer_header"
+                android:textColor="@android:color/holo_red_light"/>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/detail.activity.trailer.view"
@@ -159,6 +161,24 @@
                 android:layout_below="@+id/detail.activity.trailer.header"
                 android:layout_margin="8dp"
                 android:layout_height="120dp"/>
+
+            <TextView
+                android:id="@+id/detail.activity.reviews.header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
+                android:layout_below="@+id/detail.activity.trailer.view"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:text="@string/reviews_header"
+                android:textColor="@android:color/holo_red_light"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/detail.activity.reviews.view"
+                android:layout_width="match_parent"
+                android:layout_below="@+id/detail.activity.reviews.header"
+                android:layout_margin="8dp"
+                android:layout_height="wrap_content"
+                />
 
         </RelativeLayout>
 

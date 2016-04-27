@@ -31,6 +31,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import movies.nano.udacity.com.udacitypopularmovies.adapter.MovieReviewAdapter;
 import movies.nano.udacity.com.udacitypopularmovies.adapter.MovieTrailerAdapter;
 import movies.nano.udacity.com.udacitypopularmovies.model.MovieData;
 import movies.nano.udacity.com.udacitypopularmovies.model.MovieReview;
@@ -44,7 +45,7 @@ import movies.nano.udacity.com.udacitypopularmovies.utility.RequestConstants;
 /**
  * Created by Zoheb Syed on 23-12-2015.
  */
-public class DetailActivity extends AppCompatActivity implements RequestConstants, AppBarLayout.OnOffsetChangedListener{
+public class DetailActivity extends AppCompatActivity implements RequestConstants, AppBarLayout.OnOffsetChangedListener {
 
     Toolbar navigationToolbar;
     AppBarLayout appBarLayout;
@@ -76,7 +77,7 @@ public class DetailActivity extends AppCompatActivity implements RequestConstant
     private boolean isAdult;
     private String overview;
     private String releaseDate;
-    private int [] genreIds;
+    private int[] genreIds;
     private int movieID;
     private String original_title;
     private String original_language;
@@ -90,14 +91,14 @@ public class DetailActivity extends AppCompatActivity implements RequestConstant
     static String TAG = "DetailAcivity";
     ViewPager movieDetailPager;
     TabLayout tabs;
-    List<Fragment> fragmentList =  new ArrayList<Fragment>();
+    List<Fragment> fragmentList = new ArrayList<Fragment>();
 
     private static int REQUEST_TRAILERS = 0;
     private static int REQUEST_REVIEWS = 1;
     ProgressDialog progressDialog;
     MyVolley volley;
     MovieTrailerResponse movieTrailerResponse;
-    MovieTrailer []movieTrailerArray;
+    MovieTrailer[] movieTrailerArray;
     List<MovieTrailer> movieTrailerList;
 
     MovieReviewResponse movieReviewResponse;
@@ -107,20 +108,25 @@ public class DetailActivity extends AppCompatActivity implements RequestConstant
 
     RecyclerView trailerView;
     MovieTrailerAdapter movieTrailerAdapter;
+
+    RecyclerView reviewView;
+    MovieReviewAdapter movieReviewAdapter;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.movie_detail);
 
 
-        if(savedInstanceState == null){
+        if (savedInstanceState == null) {
 
             Bundle extras = getIntent().getExtras();
 
             movieDetails = extras.getParcelable(parcelableMovieData);
             positionSelected = getIntent().getIntExtra("key_position", 0);
 
-        }else{
+        } else {
 
             movieDetails = savedInstanceState.getParcelable(parcelableMovieData);
             positionSelected = savedInstanceState.getInt("key_position", 0);
@@ -156,7 +162,7 @@ public class DetailActivity extends AppCompatActivity implements RequestConstant
         calendar.setTime(date);
         int releaseYear = calendar.get(Calendar.YEAR);
 
-        title = title+" - ("+String.valueOf(releaseYear)+")";
+        title = title + " - (" + String.valueOf(releaseYear) + ")";
 
         /*
         popularity = movieDetails.getPopularity();
@@ -174,7 +180,7 @@ public class DetailActivity extends AppCompatActivity implements RequestConstant
 
         movieID = movieDetails.getMovieID();
 
-        movieTitle = (TextView)findViewById(R.id.detail_activity_movie_title);
+        movieTitle = (TextView) findViewById(R.id.detail_activity_movie_title);
         movieTitle.setText(title);
 
         movieRating = (TextView) findViewById(R.id.rating);
@@ -187,9 +193,9 @@ public class DetailActivity extends AppCompatActivity implements RequestConstant
         plotSynopsis = (TextView) findViewById(R.id.detail_activity_plot_synopsis);
         plotSynopsis.setText(overview);
 
-        collapsingToolBar = (CollapsingToolbarLayout)findViewById(R.id.detail_activity_collapsing_toolbar);
+        collapsingToolBar = (CollapsingToolbarLayout) findViewById(R.id.detail_activity_collapsing_toolbar);
 
-        posterImage = (ImageView)findViewById(R.id.detail_activity_poster_image);
+        posterImage = (ImageView) findViewById(R.id.detail_activity_poster_image);
         String posterUrl = posterUrl(posterPath);
 
 
@@ -204,13 +210,13 @@ public class DetailActivity extends AppCompatActivity implements RequestConstant
         backDropImage.setAdjustViewBounds(true);
 
 
-        appBarLayout = (AppBarLayout)findViewById(R.id.detail_activity_appbarlayout);
+        appBarLayout = (AppBarLayout) findViewById(R.id.detail_activity_appbarlayout);
 
         mMaxScrollSize = appBarLayout.getTotalScrollRange();
 
         appBarLayout.addOnOffsetChangedListener(this);
 
-        trailerView = (RecyclerView)findViewById(R.id.detail_activity_trailer_view);
+        trailerView = (RecyclerView) findViewById(R.id.detail_activity_trailer_view);
         LinearLayoutManager trailerLayoutManager = new LinearLayoutManager(this);
         trailerLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         trailerView.setLayoutManager(trailerLayoutManager);
@@ -220,8 +226,19 @@ public class DetailActivity extends AppCompatActivity implements RequestConstant
         movieTrailerAdapter = new MovieTrailerAdapter(DetailActivity.this, movieTrailerList);
         trailerView.setAdapter(movieTrailerAdapter);
 
+        reviewView = (RecyclerView) findViewById(R.id.detail_activity_reviews_view);
+        LinearLayoutManager reviewsLayoutManager = new LinearLayoutManager(this);
+        reviewsLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        reviewView.setLayoutManager(reviewsLayoutManager);
+
+        movieReviewList = new ArrayList<MovieReview>();
+        movieReviewList.clear();
+        movieReviewAdapter = new MovieReviewAdapter(DetailActivity.this, movieReviewList);
+        reviewView.setAdapter(movieReviewAdapter);
+
         requestTrailers();
         requestReviews();
+
 
     }
 
@@ -229,7 +246,7 @@ public class DetailActivity extends AppCompatActivity implements RequestConstant
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putParcelable(parcelableMovieData, movieDetails);
-        outState.putInt("key_position",positionSelected);
+        outState.putInt("key_position", positionSelected);
 
 
     }
@@ -239,7 +256,7 @@ public class DetailActivity extends AppCompatActivity implements RequestConstant
         Uri uriBuilder = Uri.parse(posterBasePath).buildUpon().appendPath(imageResolution).build();
         String posterUrl = uriBuilder.toString();
 
-        return posterUrl+posterPath;
+        return posterUrl + posterPath;
     }
 
 
@@ -279,7 +296,7 @@ public class DetailActivity extends AppCompatActivity implements RequestConstant
     }
 
 
-    private Response.Listener <MovieTrailerResponse>  createTrailerReqSuccessListener(){
+    private Response.Listener<MovieTrailerResponse> createTrailerReqSuccessListener() {
 
         return new Response.Listener<MovieTrailerResponse>() {
             @Override
@@ -289,13 +306,13 @@ public class DetailActivity extends AppCompatActivity implements RequestConstant
                 movieTrailerArray = movieTrailerResponse.getTrailerList();
                 movieTrailerList.clear();
                 movieTrailerList.addAll(Arrays.asList(movieTrailerArray));
-                movieTrailerAdapter.notifyDataSetChanged();
 
-                if(updateUIFlag){
+
+                if (updateUIFlag) {
                     progressDialog.dismiss();
-                    //Todo Some Method to update the UI
-                }else{
-                    updateUIFlag  = true;
+                    notifyAdapter();
+                } else {
+                    updateUIFlag = true;
                 }
 
 
@@ -303,7 +320,7 @@ public class DetailActivity extends AppCompatActivity implements RequestConstant
         };
     }
 
-    public void requestReviews(){
+    public void requestReviews() {
 
 
         GsonRequest<MovieReviewResponse> movieReviewRequest = new GsonRequest<MovieReviewResponse>(Request.Method.GET, requestTrailerReviews(REQUEST_REVIEWS, movieID), MovieReviewResponse.class, createReviewSuccessListener(), createMyReqErrorListener());
@@ -311,31 +328,40 @@ public class DetailActivity extends AppCompatActivity implements RequestConstant
 
     }
 
-    private Response.Listener<MovieReviewResponse> createReviewSuccessListener(){
+    private Response.Listener<MovieReviewResponse> createReviewSuccessListener() {
         return new Response.Listener<MovieReviewResponse>() {
             @Override
             public void onResponse(MovieReviewResponse response) {
 
                 movieReviewResponse = response;
                 movieReviewArray = movieReviewResponse.getMovieReviews();
-                movieReviewList = Arrays.asList(movieReviewArray);
 
-                if(updateUIFlag){
+                movieReviewList.clear();
+                movieReviewList.addAll(Arrays.asList(movieReviewArray));
+
+
+                if (updateUIFlag) {
                     progressDialog.dismiss();
-                    //Todo Some Method to update the UI
-                }else{
+                    notifyAdapter();
+                } else {
 
                     updateUIFlag = true;
 
                 }
 
 
-
             }
         };
     }
 
-    private Response.ErrorListener createMyReqErrorListener(){
+    private void notifyAdapter() {
+
+        movieReviewAdapter.notifyDataSetChanged();
+        movieTrailerAdapter.notifyDataSetChanged();
+
+    }
+
+    private Response.ErrorListener createMyReqErrorListener() {
 
         return new Response.ErrorListener() {
             @Override
@@ -352,14 +378,16 @@ public class DetailActivity extends AppCompatActivity implements RequestConstant
 
         Uri uriBuilder = null;
 
-        if(requestCode == 0 )
+        if (requestCode == 0)
             uriBuilder = Uri.parse(movieDetailsPath).buildUpon().appendPath(String.valueOf(movieID)).appendPath(trailers_path).appendQueryParameter(apiKey, key).build();
 
-        else if(requestCode == 1)
-            uriBuilder = Uri.parse(movieDetailsPath).buildUpon().appendPath(String.valueOf(movieID)).appendPath(reviews_path).appendQueryParameter(apiKey,key).build();
+        else if (requestCode == 1)
+            uriBuilder = Uri.parse(movieDetailsPath).buildUpon().appendPath(String.valueOf(movieID)).appendPath(reviews_path).appendQueryParameter(apiKey, key).build();
 
 
         return uriBuilder.toString();
 
     }
+
+
 }

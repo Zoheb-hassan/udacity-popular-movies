@@ -51,7 +51,7 @@ public class MovieTrailerAdapter extends RecyclerView.Adapter<MovieTrailerAdapte
         String trailerThumb = posterUrl(movieTrailer.getTrailerKey());
 
         ImageView posterView = holder.trailerPosterImage;
-        Picasso.with(mContext).load(trailerThumb).into(posterView);
+        Picasso.with(mContext).load(trailerThumb).placeholder(R.drawable.error_placeholder).into(posterView);
         posterView.setAdjustViewBounds(true);
         
     }
