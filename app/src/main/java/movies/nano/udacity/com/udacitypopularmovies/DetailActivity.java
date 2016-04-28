@@ -31,6 +31,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import movies.nano.udacity.com.udacitypopularmovies.adapter.ChildLayoutMeasureManager;
 import movies.nano.udacity.com.udacitypopularmovies.adapter.MovieReviewAdapter;
 import movies.nano.udacity.com.udacitypopularmovies.adapter.MovieTrailerAdapter;
 import movies.nano.udacity.com.udacitypopularmovies.model.MovieData;
@@ -227,7 +228,10 @@ public class DetailActivity extends AppCompatActivity implements RequestConstant
         trailerView.setAdapter(movieTrailerAdapter);
 
         reviewView = (RecyclerView) findViewById(R.id.detail_activity_reviews_view);
-        LinearLayoutManager reviewsLayoutManager = new LinearLayoutManager(this);
+//        LinearLayoutManager reviewsLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+//        reviewsLayoutManager.setAutoMeasureEnabled(true);
+
+        ChildLayoutMeasureManager reviewsLayoutManager = new ChildLayoutMeasureManager(this, LinearLayoutManager.VERTICAL, true);
         reviewsLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         reviewView.setLayoutManager(reviewsLayoutManager);
 

@@ -58,7 +58,7 @@ public class MovieReviewAdapter extends RecyclerView.Adapter<MovieReviewAdapter.
             super(itemView);
 
             authorName = (TextView)itemView.findViewById(R.id.detail_activity_author_name);
-            reviewContent = (TextView)itemView.findViewById(R.id.detail_activity_reviews_header);
+            reviewContent = (TextView)itemView.findViewById(R.id.detail_activity_review_content);
 
         }
 
