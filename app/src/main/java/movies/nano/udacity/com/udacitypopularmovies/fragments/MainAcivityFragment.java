@@ -110,11 +110,9 @@ public class MainAcivityFragment extends Fragment implements RequestConstants {
                 Intent intent = new Intent(getActivity(), DetailActivity.class);
                 intent.putExtra("key_position", position);
 
-                movieData = mResponse.getMovieData();
-
-                movieDetails = movieData[position];
-
-                intent.putExtra(parcelableMovieData, movieData[position]);
+//                movieData = mResponse.getMovieData();
+                movieDetails = movieList.get(position);
+                intent.putExtra(parcelableMovieData, movieDetails);
 
                 startActivity(intent);
             }
