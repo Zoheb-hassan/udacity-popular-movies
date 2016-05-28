@@ -65,6 +65,7 @@ public class MovieReviewAdapter extends RecyclerView.Adapter<MovieReviewAdapter.
         @Override
         public void onClick(View v) {
 
+            //Todo Display the Detailed Review
         }
     }
 }

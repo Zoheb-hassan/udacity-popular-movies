@@ -1,10 +1,13 @@
 package movies.nano.udacity.com.udacitypopularmovies;
 
 import android.app.ProgressDialog;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -21,8 +24,11 @@ import android.widget.TextView;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.squareup.picasso.Picasso;
 
+import java.lang.reflect.Type;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -46,7 +52,7 @@ import movies.nano.udacity.com.udacitypopularmovies.utility.RequestConstants;
 /**
  * Created by Zoheb Syed on 23-12-2015.
  */
-public class DetailActivity extends AppCompatActivity implements RequestConstants, AppBarLayout.OnOffsetChangedListener {
+public class DetailActivity extends AppCompatActivity implements RequestConstants, AppBarLayout.OnOffsetChangedListener, View.OnClickListener {
 
     Toolbar navigationToolbar;
     AppBarLayout appBarLayout;
@@ -113,6 +119,15 @@ public class DetailActivity extends AppCompatActivity implements RequestConstant
     RecyclerView reviewView;
     MovieReviewAdapter movieReviewAdapter;
 
+    List<MovieData> favoriteList;
+    FloatingActionButton fabButton;
+    boolean isFavorited;
+    SharedPreferences sharedPreferences;
+
+    public static final String FAVORITE_LIST = "favorites";
+
+    //Todo Store values in Shared Preferences and delete or update them based on the fab button select/unselect
+    //Todo add them to the list of favorited movies
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -133,6 +148,11 @@ public class DetailActivity extends AppCompatActivity implements RequestConstant
             positionSelected = savedInstanceState.getInt("key_position", 0);
 
         }
+
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+
+        fabButton = (FloatingActionButton)findViewById(R.id.favorite);
+        fabButton.setOnClickListener(this);
 
         navigationToolbar = (Toolbar) findViewById(R.id.detail_activity_toolbar);
         navigationToolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -239,6 +259,8 @@ public class DetailActivity extends AppCompatActivity implements RequestConstant
         movieReviewList.clear();
         movieReviewAdapter = new MovieReviewAdapter(DetailActivity.this, movieReviewList);
         reviewView.setAdapter(movieReviewAdapter);
+
+        checkIfFavorited();
 
         requestTrailers();
         requestReviews();
@@ -393,5 +415,81 @@ public class DetailActivity extends AppCompatActivity implements RequestConstant
 
     }
 
+    @Override
+    public void onClick(View v) {
+
+        switch(v.getId()){
+
+            case R.id.favorite:
+                isFavorited = !isFavorited;
+                flipFabResource(isFavorited);
+                addRemoveToFavList();
+
+        }
+
+    }
+
+    private void addRemoveToFavList() {
+
+        SharedPreferences.Editor edit = sharedPreferences.edit();
+        String storedList = sharedPreferences.getString(FAVORITE_LIST,null);
+        Gson gson = new Gson();
+
+        if(storedList == null){
+
+            favoriteList = new ArrayList<>();
+
+        }else{
+
+            Type typeToken = new TypeToken<List<MovieData>>(){}.getType();
+            favoriteList = gson.fromJson(storedList, typeToken);
+        }
+
+
+        if(isFavorited){
+
+            favoriteList.add(movieDetails);
+            String convertedList = gson.toJson(favoriteList);
+            edit.putString(FAVORITE_LIST, convertedList);
+            edit.putString(String.valueOf(movieID),String.valueOf(movieID));
+
+        }else{
+
+            for(int i=0; i<favoriteList.size();i++){
+
+                MovieData data = favoriteList.get(i);
+                if(movieID == data.getMovieID()){
+                    favoriteList.remove(i);
+                    edit.remove(String.valueOf(data.getMovieID()));
+                }
+            }
+
+            String mutatedList = gson.toJson(favoriteList);
+            edit.putString(FAVORITE_LIST, mutatedList);
+        }
+
+        edit.commit();
+
+    }
+
+    private void checkIfFavorited() {
+
+        String ifExists = sharedPreferences.getString(String.valueOf(movieID), null);
+        if(ifExists==null)
+            isFavorited = false;
+        else
+            isFavorited = true;
+
+        flipFabResource(isFavorited);
+
+    }
+
+    private void flipFabResource(boolean isFavorited) {
+
+        if(isFavorited)
+            fabButton.setImageResource(R.drawable.star);
+        else
+            fabButton.setImageResource(R.drawable.star_outline);
+    }
 
 }

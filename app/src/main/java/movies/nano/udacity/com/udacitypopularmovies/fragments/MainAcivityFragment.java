@@ -2,8 +2,10 @@ package movies.nano.udacity.com.udacitypopularmovies.fragments;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -17,7 +19,11 @@ import android.widget.GridView;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -54,7 +60,10 @@ public class MainAcivityFragment extends Fragment implements RequestConstants {
 
     MovieData movieDetails;
 
+    List<MovieData> favoriteList;
+
     static String TAG = "MainAcivityFragment";
+
 
     public MainAcivityFragment() {
         // Required empty public constructor
@@ -66,6 +75,8 @@ public class MainAcivityFragment extends Fragment implements RequestConstants {
 
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        movieList = new ArrayList<MovieData>();
+        movieListAdapter = new MovieListAdapter(getActivity(), movieList);
 
     }
 
@@ -75,6 +86,7 @@ public class MainAcivityFragment extends Fragment implements RequestConstants {
 
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         gridView = (GridView) rootView.findViewById(R.id.movies_grid);
+        gridView.setAdapter(movieListAdapter);
 
         if(savedInstanceState == null) {
 
@@ -86,10 +98,9 @@ public class MainAcivityFragment extends Fragment implements RequestConstants {
             mResponse = savedInstanceState.getParcelable(parcelableMovieResponse);
             movieData = mResponse.getMovieData();
 
-
-            movieList =  Arrays.asList(movieData);
-            movieListAdapter = new MovieListAdapter(getActivity(), movieList);
-            gridView.setAdapter(movieListAdapter);
+            movieList.clear();
+            movieList.addAll(Arrays.asList(movieData));
+            movieListAdapter.notifyDataSetChanged();
 
         }
 
@@ -133,11 +144,11 @@ public class MainAcivityFragment extends Fragment implements RequestConstants {
                 mResponse = response;
                 movieData = mResponse.getMovieData();
 
-                movieList =  Arrays.asList(movieData);
-                movieListAdapter = new MovieListAdapter(getActivity(), movieList);
-                gridView.setAdapter(movieListAdapter);
-
+                movieList.clear();
+                movieList.addAll(Arrays.asList(movieData));
+                movieListAdapter.notifyDataSetChanged();
                 progressDialog.dismiss();
+
             }
         };
     }
@@ -179,6 +190,24 @@ public class MainAcivityFragment extends Fragment implements RequestConstants {
         if (id == R.id.action_sort_rating) {
             //setSortCriteria(SortCriteria.RATING);
             makeAWish(false);
+            return true;
+        }
+
+        if(id == R.id.action_favorites){
+            //Get the favorites list
+            favoriteList = new ArrayList<>();
+            //Todo fetch the favorite list from shared prefs and populate in the adapter
+            Gson gson = new Gson();
+            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+            String storedList = sharedPreferences.getString(DetailActivity.FAVORITE_LIST, null);
+
+            Type typeToken = new TypeToken<List<MovieData>>(){}.getType();
+            favoriteList = gson.fromJson(storedList, typeToken);
+
+            movieList.clear();
+            movieList.addAll(favoriteList);
+            movieListAdapter.notifyDataSetChanged();
+
             return true;
         }
         return super.onOptionsItemSelected(item);
