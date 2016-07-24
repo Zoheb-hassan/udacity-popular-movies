@@ -197,7 +197,7 @@ public class MainAcivityFragment extends Fragment implements RequestConstants {
             //Todo fetch the favorite list from shared prefs and populate in the adapter
             Gson gson = new Gson();
             SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-            String storedList = sharedPreferences.getString(DetailActivity.FAVORITE_LIST, null);
+            String storedList = sharedPreferences.getString(MovieDetailsFragment.FAVORITE_LIST, null);
 
             Type typeToken = new TypeToken<List<MovieData>>(){}.getType();
             favoriteList = gson.fromJson(storedList, typeToken);
