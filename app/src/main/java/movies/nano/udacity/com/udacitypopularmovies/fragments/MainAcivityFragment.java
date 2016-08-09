@@ -40,7 +40,7 @@ import movies.nano.udacity.com.udacitypopularmovies.utility.RequestConstants;
  * Created by Zoheb Syed on 23-12-2015.
  */
 
-public class MainAcivityFragment extends Fragment implements RequestConstants {
+public class MainAcivityFragment extends Fragment implements RequestConstants, AdapterView.OnItemClickListener {
 
     private boolean isDescending;
     MyVolley volley;
@@ -55,7 +55,6 @@ public class MainAcivityFragment extends Fragment implements RequestConstants {
     ProgressDialog progressDialog;
     MovieData[] movieData;
     String parcelableMovieResponse = "nano.movie.parcelableData";
-    String parcelableMovieData = "nano.movie.parcelableMovieData";
     MovieRequestResponse mResponse;
 
     MovieData movieDetails;
@@ -64,6 +63,7 @@ public class MainAcivityFragment extends Fragment implements RequestConstants {
 
     static String TAG = "MainAcivityFragment";
 
+    PositionChangeListener positionChangeListener;
 
     public MainAcivityFragment() {
         // Required empty public constructor
@@ -77,7 +77,7 @@ public class MainAcivityFragment extends Fragment implements RequestConstants {
         setHasOptionsMenu(true);
         movieList = new ArrayList<MovieData>();
         movieListAdapter = new MovieListAdapter(getActivity(), movieList);
-
+        positionChangeListener = (PositionChangeListener)getActivity();
     }
 
     @Override
@@ -104,19 +104,7 @@ public class MainAcivityFragment extends Fragment implements RequestConstants {
 
         }
 
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getActivity(), DetailActivity.class);
-                intent.putExtra("key_position", position);
-
-//                movieData = mResponse.getMovieData();
-                movieDetails = movieList.get(position);
-                intent.putExtra(parcelableMovieData, movieDetails);
-
-                startActivity(intent);
-            }
-        });
+        gridView.setOnItemClickListener(this);
         return rootView;
     }
 
@@ -225,5 +213,11 @@ public class MainAcivityFragment extends Fragment implements RequestConstants {
     }
 
 
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+        movieDetails = movieList.get(position);
+        positionChangeListener.onPositionChangeListener(movieDetails, position);
+    }
 }
 

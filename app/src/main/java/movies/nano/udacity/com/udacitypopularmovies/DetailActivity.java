@@ -48,7 +48,7 @@ public class DetailActivity extends AppCompatActivity implements NavigationBackL
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction =fragmentManager.beginTransaction();
         MovieDetailsFragment movieDetailsFragment = MovieDetailsFragment.getInstance(movieDetails,true);
-        fragmentTransaction.add(R.id.detail_activity_framelayout, movieDetailsFragment);
+        fragmentTransaction.replace(R.id.detail_activity_framelayout, movieDetailsFragment);
         fragmentTransaction.commit();
 
 
